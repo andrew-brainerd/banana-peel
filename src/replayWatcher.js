@@ -3,7 +3,9 @@ const { default: SlippiGame } = require('@slippi/slippi-js');
 const { gameCompleted } = require('./api');
 
 const initializeWatcher = () => {
-  const watcher = chokidar.watch('C:/SSBReplays', {
+  console.log(`Initializing watcher at`, process.env.REPLAY_PATH);
+
+  const watcher = chokidar.watch(process.env.REPLAY_PATH, {
     depth: 0,
     persistent: true,
     usePolling: true,
@@ -13,6 +15,7 @@ const initializeWatcher = () => {
   watcher.on('add', () => console.log('New Game Started'));
   
   watcher.on('change', path => {
+    console.log('Playing game', path);
     let game = new SlippiGame(path, { processOnTheFly: true });
     const metadata = game.getMetadata();
   

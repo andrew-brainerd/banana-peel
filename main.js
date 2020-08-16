@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { app, BrowserWindow } = require('electron');
 const { initializeWatcher } = require('./src/replayWatcher');
 
