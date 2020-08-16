@@ -1,28 +1,15 @@
 <!DOCTYPE html>
 <head>
   <title>Banana Peel</title>
-  <style>
-    body {
-      align-items: center;
-      background: #fcfd7c;
-      display: flex;
-      font-family: sans-serif;
-      height: 100vh;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    h1 {
-      position: relative;
-      top: -50px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
   <h1>Banana Peel</h1>
-  <script>
-    const { getGames } = require('./src/api');
-    getGames().then(games => console.log(games));
-  </script>
+  <div class="inputContainer">
+    <h3>Replay Path</h3>
+    <input id="monitorPath" type="file" webkitdirectory />
+    <button onclick="alert('testing')">Save</button>
+  </div>
+  <script src="index.js"></script>
 </body>
 </html>
