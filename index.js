@@ -1,10 +1,17 @@
-const { getGames } = require('./src/api');
+const Store = require('electron-store');
+const { initializeWatcher } = require('./src/replayWatcher');
 
-getGames().then(games => console.log(games));
+const store = new Store();
 
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('monitorPath').onchange = () => {
-    console.log(monitorPath.files[0].path);
-    document.getElementById('')
-  };
+document.addEventListener('DOMContentLoaded', () => {
+  const monitorPath = document.getElementById('monitorPath');
+  monitorPath.value = store.get('monitorPath') || '';
 });
+
+const updateMonitorPath = () => {
+  const monitorPath = document.getElementById('monitorPath').value;
+
+  console.log('Update monitor path', monitorPath);
+  store.set('monitorPath', monitorPath);
+  initializeWatcher();
+};

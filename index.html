@@ -1,15 +1,25 @@
 <!DOCTYPE html>
+
 <head>
   <title>Banana Peel</title>
   <link rel="stylesheet" type="text/css" href="index.css">
 </head>
+
 <body>
-  <h1>Banana Peel</h1>
-  <div class="inputContainer">
-    <h3>Replay Path</h3>
-    <input id="monitorPath" type="file" webkitdirectory />
-    <button onclick="alert('testing')">Save</button>
+  <div id="content">
+    <img src="src/img/banana.png" alt="Banana Peel" />
+    <div id="inputContainer">
+      <h3>Replay Path</h3>
+      <div id="currentMonitorPath"></div>
+      <input id="monitorPath" type="text" placeholder="Enter Replay Path" />
+      <button onclick="updateMonitorPath()">Update</button>
+    </div>
+  </div>
+  <div class="attribution">
+    Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a
+      href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
   </div>
   <script src="index.js"></script>
 </body>
+
 </html>
