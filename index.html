@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <head>
   <title>Banana Peel</title>
+  <style>
+    body {
+      align-items: center;
+      background: #fcfd7c;
+      display: flex;
+      font-family: sans-serif;
+      height: 100vh;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      position: relative;
+      top: -50px;
+    }
+  </style>
 </head>
 <body>
   <h1>Banana Peel</h1>
-  <div id="games"></div>
   <script>
     const { getGames } = require('./src/api');
-
-    console.log('Testing...');
-
     getGames().then(games => console.log(games));
   </script>
 </body>
