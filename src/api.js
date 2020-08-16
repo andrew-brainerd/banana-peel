@@ -16,6 +16,13 @@ const gameCompleted = async gameData => {
   return prop('data', response);
 };
 
+const getGames = async () => {
+  const response = await client.get('/games');
+
+  return prop('data', response);
+};
+
 module.exports = {
-  gameCompleted
+  gameCompleted,
+  getGames
 };

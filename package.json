@@ -5,6 +5,9 @@
   "main": "main.js",
   "author": "Andrew Brainerd",
   "license": "MIT",
+  "build": {
+    "appId": "com.brainz.banana-peel"
+  },
   "dependencies": {
     "@slippi/slippi-js": "^5.0.4",
     "axios": "^0.19.2",
@@ -13,10 +16,14 @@
   },
   "scripts": {
     "dev": "nodemon main.js",
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
     "electron": "^9.2.0",
+    "electron-builder": "^22.8.0",
     "nodemon": "^2.0.4"
   }
 }

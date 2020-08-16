@@ -4,5 +4,13 @@
 </head>
 <body>
   <h1>Banana Peel</h1>
+  <div id="games"></div>
+  <script>
+    const { getGames } = require('./src/api');
+
+    console.log('Testing...');
+
+    getGames().then(games => console.log(games));
+  </script>
 </body>
 </html>
