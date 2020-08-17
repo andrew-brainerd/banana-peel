@@ -5,13 +5,21 @@ const Store = require('electron-store');
 
 const store = new Store();
 
-const initializeWatcher = () => {
-  const monitorPath = store.get('monitorPath');
+const initializeWatcher = async () => {
+  const monitorPath = await store.get('monitorPath');
+  const username = await store.get('username');
 
-  if (monitorPath) {
-    console.log(`Initializing watcher at`, monitorPath);
+  let watcher = null;
 
-    const watcher = chokidar.watch(monitorPath, {
+  if (monitorPath && username) {
+    console.log(`Initializing watcher at ${monitorPath} for ${username}`);
+
+    if (watcher) {
+      console.log('Closing Watcher...');
+      await watcher.close();
+    }
+
+    watcher = chokidar.watch(monitorPath, {
       depth: 0,
       persistent: true,
       usePolling: true,
@@ -31,11 +39,15 @@ const initializeWatcher = () => {
         const settings = game.getSettings();
         const stats = game.getStats();
 
-        gameCompleted({ user: 'Sp1d3rM0nk3y', metadata, settings, stats });
+        gameCompleted({ username, metadata, settings, stats });
       }
     });
   } else {
-    console.error('Please set monitor path');
+    if (!monitorPath) {
+      console.error('Please set monitor path');
+      showError()
+    }
+    !username && console.error('Please set username');
   }
 };
 

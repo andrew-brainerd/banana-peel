@@ -8,12 +8,17 @@
 <body>
   <div id="content">
     <img src="src/img/banana.png" alt="Banana Peel" />
-    <div id="inputContainer">
+    <div class="inputContainer">
       <h3>Replay Path</h3>
-      <div id="currentMonitorPath"></div>
       <input id="monitorPath" type="text" placeholder="Enter Replay Path" />
       <button onclick="updateMonitorPath()">Update</button>
     </div>
+    <div class="inputContainer">
+      <h3>Username</h3>
+      <input id="username" type="text" placeholder="Enter Username" />
+      <button onclick="updateUsername()">Update</button>
+    </div>
+    <div id="errorContainer"></div>
   </div>
   <div class="attribution">
     Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a
