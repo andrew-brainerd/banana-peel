@@ -8,6 +8,10 @@
   "build": {
     "appId": "com.brainz.banana-peel"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrew-brainerd/banana-peel.git"
+  },
   "dependencies": {
     "@slippi/slippi-js": "^5.0.4",
     "axios": "^0.19.2",
@@ -21,7 +25,8 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "deploy": "electron-builder build --win --publish always"
   },
   "devDependencies": {
     "electron": "^9.2.0",
