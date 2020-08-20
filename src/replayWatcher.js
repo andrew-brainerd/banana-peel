@@ -36,10 +36,14 @@ const initializeWatcher = async () => {
       if (metadata) {
         console.log('Game Finished', metadata);
 
-        const settings = game.getSettings();
-        const stats = game.getStats();
+        if (Object.keys(metadata.players).length === 2) {
+          console.log('Saving Game to Banana Peel Server');
 
-        gameCompleted({ username, metadata, settings, stats });
+          const settings = game.getSettings();
+          const stats = game.getStats();
+
+          gameCompleted({ username, metadata, settings, stats });
+        }
       }
     });
   } else {
