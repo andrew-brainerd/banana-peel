@@ -4,18 +4,19 @@ const { initializeWatcher } = require('./src/replayWatcher');
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    minWidth: 300,
-    minHeight: 375,
-    // maxWidth: 1050,
-    // maxHeight: 1050,
+    width: 335,
+    height: 450,
+    minWidth: 335,
+    minHeight: 450,
+    maxWidth: 335,
+    maxHeight: 450,
     webPreferences: {
       nodeIntegration: true
     }
   });
 
   win.loadFile('index.html');
+  win.minimize();
 };
 
 app.whenReady().then(() => {
