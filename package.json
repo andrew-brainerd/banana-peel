@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "nodemon main.js",
-    "start": "electron .",
+    "start": "electron . > output.log",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
