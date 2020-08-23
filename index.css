@@ -7,6 +7,7 @@ body {
   height: 100vh;
   justify-content: center;
   overflow: hidden;
+  user-select: none;
 }
 
 #content {
