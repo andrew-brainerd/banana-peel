@@ -7,13 +7,32 @@ body {
   height: 100vh;
   justify-content: center;
   overflow: hidden;
+  position: relative;
   user-select: none;
+  z-index: 0;
+}
+
+#header {
+  background: #4d4d4d;
+  color: white;
+  display: none;
+  height: 25px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 5;
+  -webkit-app-region: drag;
 }
 
 #content {
   position: relative;
   text-align: center;
   top: -50px;
+  z-index: 1;
 }
 
 img {
@@ -25,8 +44,24 @@ h3 {
   text-align: center;
 }
 
+#username {
+  font-size: 22px;
+}
+
+#dropContainer {
+  align-items: center;
+  border: 2px dashed black;
+  display: none;
+  justify-content: center;
+  margin: 25px auto 0 auto;
+  position: relative;
+  height: 100px;
+  width: 90%;
+  z-index: 5;
+}
+
 .attribution {
-  bottom: 0;
+  bottom: 10px;
   font-size: 12px;
   position: absolute;
 }

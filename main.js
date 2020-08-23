@@ -6,8 +6,9 @@ const createWindow = () => {
   const primaryDisplay = screen.getPrimaryDisplay();
   const windowWidth = 335;
   const windowHeight = 450;
+  const taskBarHeight = 40;
   const xPosition = primaryDisplay.bounds.width - windowWidth;
-  const yPosition = primaryDisplay.bounds.height - windowHeight;
+  const yPosition = primaryDisplay.bounds.height - windowHeight - taskBarHeight;
 
   const mainWindow = new BrowserWindow({
     frame: true,
@@ -31,4 +32,11 @@ const createWindow = () => {
 app.whenReady().then(() => {
   createWindow();
   initializeWatcher();
+});
+
+ipcMain.on('ondrop', (event, filePath) => {
+  const userData = require(filePath);
+  const username = (userData || {}).displayName;
+
+  event.sender.send('setUsername', username);
 });

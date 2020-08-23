@@ -30,7 +30,7 @@ const initializeWatcher = async () => {
 
     watcher.on('change', path => {
       console.log('Playing game', path);
-      let game = new SlippiGame(path, { processOnTheFly: true });
+      let game = new SlippiGame(path); //{ processOnTheFly: true }
       const metadata = game.getMetadata();
 
       if (metadata) {
