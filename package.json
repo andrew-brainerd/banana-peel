@@ -6,7 +6,11 @@
   "author": "Andrew Brainerd",
   "license": "MIT",
   "build": {
-    "appId": "com.brainz.banana-peel"
+    "appId": "com.brainz.banana-peel",
+    "files": [
+      "**/*",
+      "build/icon.*"
+    ]
   },
   "repository": {
     "type": "git",
