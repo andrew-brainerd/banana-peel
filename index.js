@@ -1,5 +1,7 @@
+const { ipcRenderer } = require('electron');
 const Store = require('electron-store');
 const { initializeWatcher } = require('./src/replayWatcher');
+const { initializeUserDrop } = require('./src/userDrop');
 
 const store = new Store();
 
@@ -8,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   monitorPath.value = store.get('monitorPath') || '';
 
   const username = document.getElementById('username');
-  username.value = store.get('username') || '';
+  username.innerText = store.get('username') ? `Netplay ID: ${store.get('username')}` : '';
+
+  initializeUserDrop();
 });
 
 const updateMonitorPath = () => {
@@ -19,10 +23,13 @@ const updateMonitorPath = () => {
   initializeWatcher();
 };
 
-const updateUsername = () => {
-  const username = document.getElementById('username').value;
-
-  console.log('Update username', username);
+const updateUsername = username => {
+  document.getElementById('username').innerText = `Netplay ID: ${username}`;
+  document.getElementById('dropContainer').style.display = 'none';
   store.set('username', username);
   initializeWatcher();
 };
+
+ipcRenderer.on('setUsername', (event, username) => {
+  updateUsername(username);
+});
