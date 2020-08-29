@@ -7,11 +7,11 @@ const { gameCompleted } = require('./api');
 
 const store = new Store();
 
+let watcher = null;
+
 const initializeWatcher = async () => {
   const monitorPath = await store.get('monitorPath');
   const username = await store.get('username');
-
-  let watcher = null;
 
   if (monitorPath && username) {
     log.info(`Initializing watcher at ${monitorPath} for ${username}`);
@@ -33,9 +33,10 @@ const initializeWatcher = async () => {
     watcher.on('change', path => {
       let game = new SlippiGame(path); //{ processOnTheFly: true }
       const metadata = game.getMetadata();
+      const gameId = path.split('\\')[2].split('.')[0];
 
       if (metadata) {
-        log.info('Game Finished', metadata);
+        log.info(`[${username}] ${gameId} Finished`);
 
         if (Object.keys(metadata.players).length === 2) {
           log.info('Saving Game to Banana Peel Server');
@@ -47,7 +48,7 @@ const initializeWatcher = async () => {
           const player2 = metadata.players[1];
           const isNetplay = !isEmpty(player1.names) && !isEmpty(player2.names);
 
-          gameCompleted({ username, isNetplay, metadata, settings, stats });
+          gameCompleted({ gameId, username, isNetplay, metadata, settings, stats });
         }
       }
     });
