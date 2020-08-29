@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 const Store = require('electron-store');
+const log = require('electron-log');
 const { initializeWatcher } = require('./src/replayWatcher');
 const { initializeUserDrop } = require('./src/userDrop');
 
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const updateMonitorPath = () => {
   const monitorPath = document.getElementById('monitorPath').value;
 
-  console.log('Update monitor path', monitorPath);
+  log.info('Update monitor path', monitorPath);
   store.set('monitorPath', monitorPath);
   initializeWatcher();
 };

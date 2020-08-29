@@ -1,5 +1,6 @@
 const chokidar = require('chokidar');
 const { default: SlippiGame } = require('@slippi/slippi-js');
+const log = require('electron-log');
 const { gameCompleted } = require('./api');
 const Store = require('electron-store');
 
@@ -12,10 +13,10 @@ const initializeWatcher = async () => {
   let watcher = null;
 
   if (monitorPath && username) {
-    console.log(`Initializing watcher at ${monitorPath} for ${username}`);
+    log.info(`Initializing watcher at ${monitorPath} for ${username}`);
 
     if (watcher) {
-      console.log('Closing Watcher...');
+      log.info('Closing Watcher...');
       await watcher.close();
     }
 
@@ -26,18 +27,18 @@ const initializeWatcher = async () => {
       ignoreInitial: true,
     })
 
-    watcher.on('add', () => console.log('New Game Started'));
+    watcher.on('add', () => log('New Game Started'));
 
     watcher.on('change', path => {
-      console.log('Playing game', path);
+      log.info('Playing game', path);
       let game = new SlippiGame(path); //{ processOnTheFly: true }
       const metadata = game.getMetadata();
 
       if (metadata) {
-        console.log('Game Finished', metadata);
+        log.info('Game Finished', metadata);
 
         if (Object.keys(metadata.players).length === 2) {
-          console.log('Saving Game to Banana Peel Server');
+          log('Saving Game to Banana Peel Server');
 
           const settings = game.getSettings();
           const stats = game.getStats();
