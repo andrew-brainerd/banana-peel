@@ -1,8 +1,9 @@
+const Store = require('electron-store');
 const chokidar = require('chokidar');
+const { isEmpty } = require('ramda');
 const { default: SlippiGame } = require('@slippi/slippi-js');
 const log = require('electron-log');
 const { gameCompleted } = require('./api');
-const Store = require('electron-store');
 
 const store = new Store();
 
@@ -27,10 +28,9 @@ const initializeWatcher = async () => {
       ignoreInitial: true,
     })
 
-    watcher.on('add', () => log('New Game Started'));
+    watcher.on('add', () => log.info('New Game Started'));
 
     watcher.on('change', path => {
-      log.info('Playing game', path);
       let game = new SlippiGame(path); //{ processOnTheFly: true }
       const metadata = game.getMetadata();
 
@@ -38,12 +38,16 @@ const initializeWatcher = async () => {
         log.info('Game Finished', metadata);
 
         if (Object.keys(metadata.players).length === 2) {
-          log('Saving Game to Banana Peel Server');
+          log.info('Saving Game to Banana Peel Server');
 
           const settings = game.getSettings();
           const stats = game.getStats();
 
-          gameCompleted({ username, metadata, settings, stats });
+          const player1 = metadata.players[0];
+          const player2 = metadata.players[1];
+          const isNetplay = !isEmpty(player1.names) && !isEmpty(player2.names);
+
+          gameCompleted({ username, isNetplay, metadata, settings, stats });
         }
       }
     });

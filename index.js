@@ -7,8 +7,9 @@ const { initializeUserDrop } = require('./src/userDrop');
 const store = new Store();
 
 document.addEventListener('DOMContentLoaded', () => {
-  const monitorPath = document.getElementById('monitorPath');
-  monitorPath.value = store.get('monitorPath') || '';
+  const currentMonitorPath = store.get('monitorPath') || '';
+  document.getElementById('monitorPath').value = currentMonitorPath;
+  document.getElementById('currentMonitorPath').innerText = `Replay Path: ${currentMonitorPath}`;
 
   const username = document.getElementById('username');
   username.innerText = store.get('username') ? `Netplay ID: ${store.get('username')}` : '';
@@ -16,10 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeUserDrop();
 });
 
+const editMonitorPath = () => {
+  document.getElementById('monitorPathDisplay').style.display = 'none';
+  document.getElementById('monitorPathInput').style.display = 'block';
+};
+
 const updateMonitorPath = () => {
   const monitorPath = document.getElementById('monitorPath').value;
+  document.getElementById('currentMonitorPath').innerText = `Replay Path: ${monitorPath}`;
+  document.getElementById('monitorPathDisplay').style.display = 'block';
+  document.getElementById('monitorPathInput').style.display = 'none';
 
-  log.info('Update monitor path', monitorPath);
+  log.info('Updating monitor path to', monitorPath);
   store.set('monitorPath', monitorPath);
   initializeWatcher();
 };
