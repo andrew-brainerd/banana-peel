@@ -84,3 +84,7 @@ ipcMain.on('ondrop', (event, filePath) => {
 
   event.sender.send('setUsername', username);
 });
+
+module.exports = {
+  mainWindow
+};

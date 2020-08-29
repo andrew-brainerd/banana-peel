@@ -4,13 +4,14 @@ const { isEmpty } = require('ramda');
 const { default: SlippiGame } = require('@slippi/slippi-js');
 const log = require('electron-log');
 const { gameCompleted } = require('./api');
+const { defaultMonitorPath } = require('./constants');
 
 const store = new Store();
 
 let watcher = null;
 
 const initializeWatcher = async () => {
-  const monitorPath = await store.get('monitorPath');
+  const monitorPath = await store.get('monitorPath') || defaultMonitorPath;
   const username = await store.get('username');
 
   if (monitorPath && username) {

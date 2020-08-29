@@ -1,4 +1,5 @@
 const { app } = require('electron');
+const { mainWindow } = require('../main');
 
 const preventMultipleInstances = () => {
   const instanceLock = app.requestSingleInstanceLock();
