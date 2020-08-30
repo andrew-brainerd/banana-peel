@@ -1,21 +1,24 @@
-const chokidar = require('chokidar');
-const { default: SlippiGame } = require('@slippi/slippi-js');
-const { gameCompleted } = require('./api');
 const Store = require('electron-store');
+const chokidar = require('chokidar');
+const { isEmpty } = require('ramda');
+const { default: SlippiGame } = require('@slippi/slippi-js');
+const log = require('electron-log');
+const { gameCompleted } = require('./api');
+const { defaultMonitorPath } = require('./constants');
 
 const store = new Store();
 
+let watcher = null;
+
 const initializeWatcher = async () => {
-  const monitorPath = await store.get('monitorPath');
+  const monitorPath = await store.get('monitorPath') || defaultMonitorPath;
   const username = await store.get('username');
 
-  let watcher = null;
-
   if (monitorPath && username) {
-    console.log(`Initializing watcher at ${monitorPath} for ${username}`);
+    log.info(`Initializing watcher at ${monitorPath} for ${username}`);
 
     if (watcher) {
-      console.log('Closing Watcher...');
+      log.info('Closing Watcher...');
       await watcher.close();
     }
 
@@ -26,23 +29,27 @@ const initializeWatcher = async () => {
       ignoreInitial: true,
     })
 
-    watcher.on('add', () => console.log('New Game Started'));
+    watcher.on('add', () => log.info('New Game Started'));
 
     watcher.on('change', path => {
-      console.log('Playing game', path);
       let game = new SlippiGame(path); //{ processOnTheFly: true }
       const metadata = game.getMetadata();
+      const gameId = path.split('\\')[2].split('.')[0];
 
       if (metadata) {
-        console.log('Game Finished', metadata);
+        log.info(`[${username}] ${gameId} Finished`);
 
         if (Object.keys(metadata.players).length === 2) {
-          console.log('Saving Game to Banana Peel Server');
+          log.info('Saving Game to Banana Peel Server');
 
           const settings = game.getSettings();
           const stats = game.getStats();
 
-          gameCompleted({ username, metadata, settings, stats });
+          const player1 = metadata.players[0];
+          const player2 = metadata.players[1];
+          const isNetplay = !isEmpty(player1.names) && !isEmpty(player2.names);
+
+          gameCompleted({ gameId, username, isNetplay, metadata, settings, stats });
         }
       }
     });

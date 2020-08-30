@@ -1,6 +1,6 @@
 {
   "name": "banana-peel",
-  "version": "0.2.0",
+  "version": "0.3.2",
   "description": "Banana Peel Slippi Watcher",
   "main": "main.js",
   "author": "Andrew Brainerd",
@@ -18,15 +18,17 @@
   },
   "dependencies": {
     "@slippi/slippi-js": "^5.0.4",
+    "auto-launch": "^5.0.5",
     "axios": "^0.19.2",
     "chokidar": "^3.4.2",
     "dotenv": "^8.2.0",
+    "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
     "ramda": "^0.27.1"
   },
   "scripts": {
     "dev": "nodemon main.js",
-    "start": "electron . > output.log",
+    "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps",

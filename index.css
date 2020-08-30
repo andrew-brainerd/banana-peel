@@ -4,7 +4,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: sans-serif;
-  height: 100vh;
+  height: 450px;
   justify-content: center;
   overflow: hidden;
   position: relative;
@@ -29,6 +29,7 @@ body {
 }
 
 #content {
+  height: 350px;
   position: relative;
   text-align: center;
   top: -50px;
@@ -44,8 +45,26 @@ h3 {
   text-align: center;
 }
 
+button {
+  margin: 10px 0;
+}
+
+#logoContainer {
+  height: 175px;
+}
+
+#monitorPathInput {
+  display: none;
+}
+
 #username {
-  font-size: 22px;
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+#monitorPathDisplay {
+  font-size: 18px;
+  margin: 10px 0;
 }
 
 #dropContainer {
@@ -61,7 +80,5 @@ h3 {
 }
 
 .attribution {
-  bottom: 10px;
   font-size: 12px;
-  position: absolute;
 }

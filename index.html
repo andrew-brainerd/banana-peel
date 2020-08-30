@@ -8,10 +8,15 @@
 <body>
   <div id="header">Banana Peel</div>
   <div id="content">
-    <img src="src/img/banana.png" alt="Banana Peel" />
+    <div id="logoContainer">
+      <img src="src/img/banana.png" alt="Banana Peel" />
+    </div>
     <div id="username"></div>
-    <div class="inputContainer">
-      <h3>Replay Path</h3>
+    <div id="monitorPathDisplay">
+      <div id="currentMonitorPath"></div>
+      <button onclick="editMonitorPath()">Edit Replay Path</button>
+    </div>
+    <div id="monitorPathInput" class="inputContainer">
       <input id="monitorPath" type="text" placeholder="Enter Replay Path" />
       <button onclick="updateMonitorPath()">Update</button>
     </div>
