@@ -1,8 +1,9 @@
 require('dotenv').config()
 const rimraf = require('rimraf');
 const { app, BrowserWindow, ipcMain, screen, Tray, Menu } = require('electron');
-const { initializeWatcher } = require('./src/replayWatcher');
 const { autoLaunchApplication } = require('./src/autoLaunch');
+const { initializeWatcher } = require('./src/replayWatcher');
+const { syncLocalGames } = require('./src/sync');
 const getAppIcon = require('./getAppIcon');
 
 let tray = null;
@@ -105,6 +106,7 @@ app.whenReady().then(() => {
   createTray();
   createWindow();
   initializeWatcher();
+  setTimeout(syncLocalGames, 5000);
 });
 
 ipcMain.on('ondrop', (event, filePath) => {
