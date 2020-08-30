@@ -16,13 +16,14 @@ const gameCompleted = async gameData => {
   return prop('data', response);
 };
 
-const getGames = async () => {
-  const response = await client.get('/games');
+const getGameById = async gameId => {
+  const response = await client.get(`/games/${gameId}`);
+
 
   return prop('data', response);
 };
 
 module.exports = {
   gameCompleted,
-  getGames
+  getGameById
 };
