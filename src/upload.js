@@ -28,8 +28,10 @@ const uploadGame = (filePath, showNotification = true) => {
 
         const settings = game.getSettings();
         const stats = game.getStats();
+        const gameEnd = game.getGameEnd();
+        const lastFrame = game.getLatestFrame();
 
-        gameCompleted({ gameId, username, isNetplay, metadata, settings, stats }).then(
+        gameCompleted({ gameId, username, isNetplay, metadata, gameEnd, lastFrame, settings, stats }).then(
           game => {
             showNotification && require('../main').showTrayNotification(`Uploaded ${game.gameId}`, 'Game Over');
           }
