@@ -3,7 +3,7 @@ const { prop } = require('ramda');
 
 const basicJsonHeader = { 'Content-Type': 'application/json' };
 
-const BASE_API_URL = process.env.API_URL || 'http://localhost:5000/api';
+const BASE_API_URL = process.env.API_URL || 'https://banana-peel-server.herokuapp.com/api';
 
 const client = axios.create({
   baseURL: BASE_API_URL,

@@ -24,7 +24,8 @@
     "dotenv": "^8.2.0",
     "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
-    "ramda": "^0.27.1"
+    "ramda": "^0.27.1",
+    "rimraf": "^3.0.2"
   },
   "scripts": {
     "dev": "nodemon main.js",

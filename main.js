@@ -1,4 +1,5 @@
 require('dotenv').config()
+const rimraf = require('rimraf');
 const { app, BrowserWindow, ipcMain, screen, Tray, Menu } = require('electron');
 const { initializeWatcher } = require('./src/replayWatcher');
 const { autoLaunchApplication } = require('./src/autoLaunch');
@@ -51,6 +52,16 @@ const createTray = () => {
     {
       label: 'Open',
       click: () => mainWindow.show()
+    },
+    {
+      label: 'Unlink User',
+      click: () => rimraf(
+        app.getPath('userData'),
+        () => {
+          app.exit();
+          app.relaunch();
+        }
+      )
     },
     {
       label: 'Exit',

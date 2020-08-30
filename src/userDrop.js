@@ -22,6 +22,10 @@ const initializeUserDrop = () => {
     const filePath = file.path.split('\\');
     const fileName = filePath[filePath.length - 1];
 
+    if (fileName !== 'user.json') {
+      return false;
+    }
+
     ipcRenderer.send('ondrop', file.path);
 
     return false;
