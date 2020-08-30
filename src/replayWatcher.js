@@ -32,7 +32,7 @@ const initializeWatcher = async () => {
     watcher.on('add', () => log.info('New Game Started'));
 
     watcher.on('change', path => {
-      let game = new SlippiGame(path); //{ processOnTheFly: true }
+      let game = new SlippiGame(path);
       const metadata = game.getMetadata();
       const gameId = path.split('\\')[2].split('.')[0];
 
@@ -48,12 +48,16 @@ const initializeWatcher = async () => {
           log.info(`[${username}] ${gameId} Finished: ${player1Netplay} vs ${player2Netplay}`);
 
           if (Object.keys(metadata.players).length === 2) {
-            log.info('Saving Game to Banana Peel Server');
+            log.info(`Uploading ${gameId} to Banana Peel Server`);
 
             const settings = game.getSettings();
             const stats = game.getStats();
 
-            gameCompleted({ gameId, username, isNetplay, metadata, settings, stats });
+            gameCompleted({ gameId, username, isNetplay, metadata, settings, stats }).then(
+              game => {
+                require('../main').showTrayNotification(`Uploaded ${game.gameId}`, 'Game Over');
+              }
+            );
           }
         }
       }

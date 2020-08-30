@@ -46,6 +46,15 @@ const createWindow = () => {
   mainWindow.loadFile('index.html');
 };
 
+const showTrayNotification = (message, title = 'Banana Peel') => {
+  tray.displayBalloon({
+    title,
+    icon: getAppIcon(),
+    content: message,
+    respectQuietTime: true
+  });
+};
+
 const createTray = () => {
   tray = new Tray(getAppIcon());
   const contextMenu = Menu.buildFromTemplate([
@@ -72,12 +81,7 @@ const createTray = () => {
   tray.setToolTip('Banana Peel');
   tray.setContextMenu(contextMenu);
   tray.on('click', () => mainWindow.show());
-  tray.displayBalloon({
-    title: 'Banana Peel Running',
-    icon: getAppIcon(),
-    content: 'Now recording your Slippi matches',
-    respectQuietTime: true
-  });
+  showTrayNotification('Now recording your Slippi matches', 'Banana Peel Running');
 };
 
 const preventMultipleInstances = () => {
@@ -109,3 +113,7 @@ ipcMain.on('ondrop', (event, filePath) => {
 
   event.sender.send('setUsername', username);
 });
+
+module.exports = {
+  showTrayNotification
+};
