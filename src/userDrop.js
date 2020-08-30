@@ -1,6 +1,6 @@
 const initializeUserDrop = () => {
   const dropContainer = document.getElementById('dropContainer');
-  dropContainer.style.display = store.get('username') ? 'none' : 'flex';
+  dropContainer.style.display = store.get('connectCode') ? 'none' : 'flex';
 
   dropContainer.ondragover = () => {
     dropContainer.style.border = '2px solid black';

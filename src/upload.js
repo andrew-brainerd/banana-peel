@@ -8,6 +8,7 @@ const store = new Store();
 
 const uploadGame = (filePath, showNotification = true) => {
   const username = store.get('username');
+  const connectCode = store.get('connectCode');
   const game = new SlippiGame(filePath);
   const metadata = game.getMetadata();
   const gameId = filePath.split('\\')[2].split('.')[0];
@@ -21,7 +22,7 @@ const uploadGame = (filePath, showNotification = true) => {
       const player1Netplay = player1.names.netplay;
       const player2Netplay = player2.names.netplay;
 
-      log.info(`[${username}] ${gameId} Finished: ${player1Netplay} vs ${player2Netplay}`);
+      log.info(`[${connectCode}] ${gameId} Finished: ${player1Netplay} vs ${player2Netplay}`);
 
       if (Object.keys(metadata.players).length === 2) {
         log.info(`Uploading ${gameId} to Banana Peel Server`);
@@ -31,7 +32,19 @@ const uploadGame = (filePath, showNotification = true) => {
         const gameEnd = game.getGameEnd();
         const lastFrame = game.getLatestFrame();
 
-        gameCompleted({ gameId, username, isNetplay, metadata, gameEnd, lastFrame, settings, stats }).then(
+        const gameStats = {
+          gameId,
+          username,
+          connectCode,
+          isNetplay,
+          metadata,
+          gameEnd,
+          lastFrame,
+          settings,
+          stats
+        };
+
+        gameCompleted(gameStats).then(
           game => {
             showNotification && require('../main').showTrayNotification(`Uploaded ${game.gameId}`, 'Game Over');
           }

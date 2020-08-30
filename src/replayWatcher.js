@@ -12,9 +12,10 @@ let watcher = null;
 const initializeWatcher = async () => {
   const monitorPath = store.get('monitorPath') || defaultMonitorPath;
   const username = store.get('username');
+  const connectCode = store.get('connectCode');
 
-  if (monitorPath && username) {
-    log.info(`Initializing watcher at ${monitorPath} for ${username}`);
+  if (monitorPath && username && connectCode) {
+    log.info(`Initializing watcher at ${monitorPath} for ${username} [${connectCode}]`);
 
     if (watcher) {
       log.info('Closing Watcher...');
@@ -36,7 +37,7 @@ const initializeWatcher = async () => {
       console.error('Please set monitor path');
       showError()
     }
-    !username && console.error('Please set username');
+    (!username || !connectCode) && console.error('Please set user info');
   }
 };
 

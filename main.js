@@ -112,8 +112,9 @@ app.whenReady().then(() => {
 ipcMain.on('ondrop', (event, filePath) => {
   const userData = require(filePath);
   const username = (userData || {}).displayName;
+  const connectCode = (userData || {}).connectCode;
 
-  event.sender.send('setUsername', username);
+  event.sender.send('setUserInfo', { username, connectCode });
 });
 
 module.exports = {

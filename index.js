@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('currentMonitorPath').innerText = `Replay Path: ${currentMonitorPath}`;
 
   const username = document.getElementById('username');
-  username.innerText = store.get('username') ? `Netplay ID: ${store.get('username')}` : '';
+  username.innerText = store.get('username') ? `Name: ${store.get('username')}` : '';
+
+  const connectCode = document.getElementById('connectCode');
+  connectCode.innerText = store.get('connectCode') ? `Netplay ID: ${store.get('connectCode')}` : '';
 
   initializeUserDrop();
 });
@@ -34,13 +37,15 @@ const updateMonitorPath = () => {
   initializeWatcher();
 };
 
-const updateUsername = username => {
-  document.getElementById('username').innerText = `Netplay ID: ${username}`;
+const updateUserInfo = ({ username, connectCode}) => {
+  document.getElementById('username').innerText = `Name: ${username}`;
+  document.getElementById('connectCode').innerText = `Netplay ID: ${connectCode}`;
   document.getElementById('dropContainer').style.display = 'none';
   store.set('username', username);
+  store.set('connectCode', connectCode);
   initializeWatcher();
 };
 
-ipcRenderer.on('setUsername', (event, username) => {
-  updateUsername(username);
+ipcRenderer.on('setUserInfo', (event, userInfo) => {
+  updateUserInfo(userInfo);
 });

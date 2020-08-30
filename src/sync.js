@@ -10,10 +10,11 @@ const store = new Store();
 
 const syncLocalGames = () => {
   const monitorPath = store.get('monitorPath');
+  const connectCode = store.get('connectCode');
 
-  log.info('Syncing Local Games from ', monitorPath);
+  if (monitorPath && connectCode) {
+    log.info('Syncing Local Games from', monitorPath);
 
-  if (monitorPath) {
     let uploadCounter = 0;
 
     fs.readdir(monitorPath, (err, games) => {
