@@ -24,7 +24,7 @@ const createWindow = () => {
     height: windowHeight,
     x: xPosition,
     y: yPosition,
-    // show: false,
+    show: false,
     resizable: false,
     autoHideMenuBar: true,
     darkTheme: true,
