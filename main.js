@@ -2,7 +2,6 @@ require('dotenv').config()
 const { app, BrowserWindow, ipcMain, screen, Tray, Menu } = require('electron');
 const { initializeWatcher } = require('./src/replayWatcher');
 const { autoLaunchApplication } = require('./src/autoLaunch');
-const { preventMultipleInstances } = require('./src/instanceLock');
 const getAppIcon = require('./getAppIcon');
 
 let tray = null;
@@ -70,6 +69,21 @@ const createTray = () => {
   });
 };
 
+const preventMultipleInstances = () => {
+  const instanceLock = app.requestSingleInstanceLock();
+
+  if (!instanceLock) {
+    app.quit();
+  } else {
+    app.on('second-instance', () => {
+      if (mainWindow) {
+        mainWindow.show();
+        mainWindow.focus();
+      }
+    })
+  }
+};
+
 app.whenReady().then(() => {
   autoLaunchApplication();
   preventMultipleInstances();
@@ -84,7 +98,3 @@ ipcMain.on('ondrop', (event, filePath) => {
 
   event.sender.send('setUsername', username);
 });
-
-module.exports = {
-  mainWindow
-};
