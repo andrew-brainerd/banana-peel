@@ -17,8 +17,7 @@ const gameCompleted = async gameData => {
 };
 
 const getGameById = async gameId => {
-  const response = await client.get(`/games/${gameId}`);
-
+  const response = await client.get(`/games/gameId/${gameId}`);
 
   return prop('data', response);
 };
