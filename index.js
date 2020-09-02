@@ -3,12 +3,12 @@ const Store = require('electron-store');
 const log = require('electron-log');
 const { initializeWatcher } = require('./src/replayWatcher');
 const { initializeUserDrop } = require('./src/userDrop');
-const { defaultMonitorPath } = require('./src/constants');
+const { DEFAULT_MONITOR_PATH } = require('./src/constants');
 
 const store = new Store();
 
 document.addEventListener('DOMContentLoaded', () => {
-  const currentMonitorPath = store.get('monitorPath') || defaultMonitorPath;
+  const currentMonitorPath = store.get('monitorPath') || DEFAULT_MONITOR_PATH;
   document.getElementById('monitorPath').value = currentMonitorPath;
   document.getElementById('currentMonitorPath').innerText = `Replay Path: ${currentMonitorPath}`;
 

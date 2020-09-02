@@ -1,8 +1,10 @@
+const { shell } = require('electron');
 const fs = require('fs');
 const Store = require('electron-store');
 const log = require('electron-log');
 const { isEmpty } = require('ramda');
 const { default: SlippiGame } = require('@slippi/slippi-js');
+const { PLAYER_GAMES_ROUTE } = require('./constants');
 const { getGameById } = require('./api');
 const { uploadGame } = require('./upload');
 
@@ -39,7 +41,11 @@ const syncLocalGames = () => {
         }
       })).then(() => {
         uploadCounter > 0 &&
-          require('../main').showTrayNotification(`Uploaded ${uploadCounter} games`, 'Sync Complete')
+          require('../main').showTrayNotification(
+            `Uploaded ${uploadCounter} games`,
+            'Sync Complete',
+            () => shell.openExternal(PLAYER_GAMES_ROUTE.replace(':connectCode', connectCode))
+          );
       });
     });
   }

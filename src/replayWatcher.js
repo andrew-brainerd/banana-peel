@@ -2,7 +2,7 @@ const Store = require('electron-store');
 const chokidar = require('chokidar');
 const log = require('electron-log');
 
-const { defaultMonitorPath } = require('./constants');
+const { DEFAULT_MONITOR_PATH } = require('./constants');
 const { uploadGame } = require('./upload');
 
 const store = new Store();
@@ -10,7 +10,7 @@ const store = new Store();
 let watcher = null;
 
 const initializeWatcher = async () => {
-  const monitorPath = store.get('monitorPath') || defaultMonitorPath;
+  const monitorPath = store.get('monitorPath') || DEFAULT_MONITOR_PATH;
   const username = store.get('username');
   const connectCode = store.get('connectCode');
 

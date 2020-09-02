@@ -1,8 +1,10 @@
+const { shell } = require('electron');
 const { isEmpty } = require('ramda');
 const Store = require('electron-store');
 const { default: SlippiGame } = require('@slippi/slippi-js');
 const log = require('electron-log');
 const { gameCompleted } = require('./api');
+const { GAME_DETAILS_ROUTE } = require('./constants');
 
 const store = new Store();
 
@@ -46,7 +48,11 @@ const uploadGame = (filePath, showNotification = true) => {
 
         gameCompleted(gameStats).then(
           game => {
-            showNotification && require('../main').showTrayNotification(`Uploaded ${game.gameId}`, 'Game Over');
+            showNotification && require('../main').showTrayNotification(
+              `Uploaded ${game.gameId}`,
+              'Game Over',
+              () => shell.openExternal(GAME_DETAILS_ROUTE.replace(':gameId', game._id))
+            );
           }
         );
       }

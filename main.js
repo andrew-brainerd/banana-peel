@@ -1,6 +1,9 @@
 require('dotenv').config()
 const rimraf = require('rimraf');
-const { app, BrowserWindow, ipcMain, screen, Tray, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, screen, Tray, Menu, shell } = require('electron');
+const Store = require('electron-store');
+const noop = require('./src/utils/noop');
+const { PLAYER_GAMES_ROUTE } = require('./src/constants');
 const { autoLaunchApplication } = require('./src/autoLaunch');
 const { initializeWatcher } = require('./src/replayWatcher');
 const { syncLocalGames } = require('./src/sync');
@@ -8,6 +11,8 @@ const getAppIcon = require('./getAppIcon');
 
 let tray = null;
 let mainWindow = null;
+
+const store = new Store();
 
 const createWindow = () => {
   const primaryDisplay = screen.getPrimaryDisplay();
@@ -47,16 +52,25 @@ const createWindow = () => {
   mainWindow.loadFile('index.html');
 };
 
-const showTrayNotification = (message, title = 'Banana Peel') => {
+const showTrayNotification = (message, title = 'Banana Peel', action) => {
   tray.displayBalloon({
     title,
     icon: getAppIcon(),
     content: message,
     respectQuietTime: true
   });
+
+  tray.removeAllListeners(['balloon-click']);
+
+  tray.once('balloon-click', e => {
+    e.preventDefault();
+    action ? action() : noop();
+  });
 };
 
 const createTray = () => {
+  const connectCode = store.get('connectCode').replace('#', '-');
+
   tray = new Tray(getAppIcon());
   const contextMenu = Menu.buildFromTemplate([
     {
@@ -82,7 +96,11 @@ const createTray = () => {
   tray.setToolTip('Banana Peel');
   tray.setContextMenu(contextMenu);
   tray.on('click', () => mainWindow.show());
-  showTrayNotification('Now recording your Slippi matches', 'Banana Peel Running');
+  showTrayNotification(
+    'Now recording your Slippi matches', 
+    'Banana Peel Running',
+    () => shell.openExternal(PLAYER_GAMES_ROUTE.replace(':connectCode', connectCode))
+  );
 };
 
 const preventMultipleInstances = () => {
